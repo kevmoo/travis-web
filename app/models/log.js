@@ -23,11 +23,19 @@ var Request = Ember.Object.extend({
       this.log.set('token', xhr.getResponseHeader('X-Log-Access-Token'));
     }
     if (xhr.status === 204) {
+      let resolve;
+      new Ember.RSVP.Promise((_resolve) => {
+        resolve = _resolve;
+      });
+
       return Ember.$.ajax({
         url: this.redirectTo(xhr),
         type: 'GET',
         success: (body) => {
-          Ember.run(this, function () { this.handlers.text(body); });
+          Ember.run(this, function () {
+            resolve();
+            this.handlers.text(body);
+          });
         }
       });
     } else if (this.isJson(xhr)) {

@@ -12,6 +12,10 @@ moduleForAcceptance('Acceptance | repo branches', {
 
     signInUser(currentUser);
 
+    const gitUser = server.create('git-user', {
+      name: 'Sara Ahmed'
+    });
+
     // create organization
     server.create('account', {
       name: 'Feminist Killjoys',
@@ -61,7 +65,7 @@ moduleForAcceptance('Acceptance | repo branches', {
 
     lastBuild.createCommit({
       sha: '1234567890',
-      committer: currentUser
+      committer: gitUser
     });
     lastBuild.save();
 
@@ -118,7 +122,7 @@ moduleForAcceptance('Acceptance | repo branches', {
       finished_at: oneYearAgo
     }).createCommit({
       sha: 'abc134',
-      committer: currentUser
+      committer: gitUser
     });
   }
 });
